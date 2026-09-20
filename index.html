@@ -1,139 +1,68 @@
 <!doctype html>
 <html lang="es">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#071426">
-<title>PRAC Super Match Manager</title>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#061322"><title>PRAC Super Match Manager</title>
 <style>
-*{box-sizing:border-box}body{margin:0;background:#061322;color:#fff;font-family:system-ui,-apple-system,Arial,sans-serif}.wrap{max-width:900px;margin:auto;padding:16px}.hero{text-align:center;padding:18px 8px}.hero h1{margin:0;font-size:clamp(28px,7vw,48px)}.hero h1 span{color:#ef3f46}.hero p{color:#9fb1c7;margin:6px}.card,.match{background:#0d2137;border:1px solid #294765;border-radius:17px;padding:16px;margin:14px 0}h2{margin:0 0 13px;font-size:24px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:11px}label{display:block;color:#a9b9cb;font-size:13px;font-weight:800;margin:0 0 5px}input,select{width:100%;padding:13px;background:#07182a;color:#fff;border:1px solid #3a5875;border-radius:11px;font-size:16px}button{border:0;border-radius:11px;padding:12px 15px;background:#168ff2;color:white;font-weight:850;font-size:15px;cursor:pointer}.danger{background:#a72d36}.gray{background:#29445f}.green{background:#168c66}.head,.actions,.score,.rosterrow{display:flex;gap:9px;align-items:center;justify-content:space-between;flex-wrap:wrap}.count{color:#ffc857;font-size:14px}.note,.muted{font-size:13px;color:#9fb1c7}.roster{margin-top:13px}.rosterrow{background:#07182a;padding:10px 12px;border-radius:11px;margin:7px 0}.rosterrow small{color:#9fb1c7}.vs{display:grid;grid-template-columns:1fr auto 1fr;gap:8px;align-items:center;margin:14px 0}.ath{text-align:center;background:#07182a;border-radius:12px;padding:13px 6px}.ath small{display:block;color:#9fb1c7;margin-top:4px}.vsb{font-weight:1000;color:#ef3f46}.score{justify-content:center}.score b{font-size:30px;min-width:82px;text-align:center}.winner{outline:2px solid #ffc857}.status{color:#ffc857;font-weight:900}.empty{text-align:center;color:#9fb1c7;padding:20px}.rounds{text-align:center;color:#9fb1c7;font-size:13px;margin:7px 0 12px}.divider{height:1px;background:#294765;margin:15px 0}@media(max-width:600px){.grid{grid-template-columns:1fr}.hero{padding-top:8px}h2{font-size:22px}.score button{padding:11px 13px}}
-</style>
-</head>
+*{box-sizing:border-box}body{margin:0;background:#061322;color:#fff;font-family:system-ui,-apple-system,Arial}.wrap{max-width:920px;margin:auto;padding:14px}.hero{text-align:center;padding:18px 5px 10px}.hero h1{font-size:clamp(28px,7vw,46px);margin:0}.red{color:#ef4148}.muted{color:#9fb1c7}.badge{color:#ffc857;font-size:12px}.nav{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;position:sticky;top:0;background:#061322;padding:8px 0;z-index:9}.nav button{background:#29445f}.nav button.on{background:#168ff2}.card,.match{background:#0d2137;border:1px solid #31516f;border-radius:17px;padding:16px;margin:14px 0}h2{margin:0 0 13px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}label{display:block;color:#a9b9cb;font-size:13px;font-weight:800;margin-bottom:5px}input,select{width:100%;padding:13px;background:#07182a;color:#fff;border:1px solid #3a5875;border-radius:11px;font-size:16px}button{border:0;border-radius:11px;padding:12px 14px;background:#168ff2;color:#fff;font-weight:850;font-size:15px}.danger{background:#b52f39}.gray{background:#29445f}.hidden{display:none}.head,.row,.score{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}.athrow,.smrow{background:#07182a;border-radius:12px;padding:12px;margin:8px 0}.count,.winnertext{color:#ffc857;font-weight:850}.vs{display:grid;grid-template-columns:1fr auto 1fr;gap:8px;align-items:center;margin:14px 0}.ath{text-align:center;background:#07182a;border-radius:12px;padding:13px 6px}.ath small{display:block;color:#9fb1c7}.win{outline:2px solid #ffc857}.vsb{color:#ef4148;font-weight:1000}.score{justify-content:center}.score b{font-size:30px;min-width:80px;text-align:center}.empty{text-align:center;color:#9fb1c7;padding:20px}.smrow{border:1px solid #294765}.smrow button{background:transparent;width:100%;padding:0;text-align:left}.smmeta{font-size:13px;color:#9fb1c7;margin-top:4px}.toolbar{display:flex;gap:8px;flex-wrap:wrap}.toolbar input{flex:1;min-width:180px}@media(max-width:600px){.grid{grid-template-columns:1fr}.nav button{font-size:13px;padding:11px 5px}}
+</style></head>
 <body><div class="wrap">
-<div class="hero"><h1><span>PRAC</span> Super Match Manager</h1><p>Puerto Rico Armwrestling Championship</p></div>
+<div class="hero"><h1><span class="red">PRAC</span> Super Match Manager</h1><p class="muted">Puerto Rico Armwrestling Championship</p><div class="badge">VERSIÓN VALIDADA 2.0</div></div>
+<div class="nav"><button id="nManage" class="on">Gestión</button><button id="nAth">Atletas</button><button id="nSM">Super Matches</button></div>
 
-<section class="card">
-<h2>Evento</h2>
-<div class="grid">
+<div id="vManage">
+<section class="card"><h2>Gestión del Evento</h2><div class="grid">
 <div><label>Nombre del evento</label><input id="event" value="PRAC Super Match Series"></div>
-<div><label>Fecha</label><input id="date" type="date"></div>
-</div>
-</section>
-
-<section class="card">
-<div class="head"><h2>1. Registro de Atletas</h2><span class="count" id="athCount">0 atletas</span></div>
-<div class="grid">
-<div><label>Nombre del atleta</label><input id="athName" placeholder="Ej. Eric Martínez"></div>
-<div><label>Equipo</label><input id="athTeam" placeholder="Ej. Armwarriors PR / No Team"></div>
-</div>
-<p><button type="button" id="addAth">+ Añadir atleta</button></p>
-<div id="roster" class="roster"></div>
-</section>
-
-<section class="card">
-<div class="head"><h2>2. Crear Super Match</h2><span class="count" id="matchCount">0 Super Matches</span></div>
-<div class="grid">
-<div><label>Atleta 1</label><select id="a1"><option value="">Selecciona atleta</option></select></div>
-<div><label>Atleta 2</label><select id="a2"><option value="">Selecciona atleta</option></select></div>
-<div><label>Mano</label><select id="hand"><option value="Derecha">Derecha</option><option value="Izquierda">Izquierda</option></select></div>
-<div><label>Formato</label><input value="Mejor de 5 · Primero en llegar a 3" disabled></div>
-</div>
-<p><button type="button" id="addMatch">+ Crear Super Match</button></p>
-<div class="note">Puedes crear todos los Super Matches que necesites. Cada uno tiene máximo 5 rounds y gana el primero que llegue a 3.</div>
-</section>
-
-<section class="card">
-<div class="head"><h2>3. Cartelera / Resultados</h2><button type="button" class="danger" id="clearMatches">Borrar cartelera</button></div>
-<div id="list"></div>
-</section>
+<div><label>Fecha</label><input id="date" type="date"></div></div>
+<div class="row" style="margin-top:14px"><span><b id="sumAth">0</b> atletas registrados</span><span><b id="sumSM">0</b> Super Matches</span><span><b id="sumDone">0</b> finalizados</span></div></section>
+<section class="card"><h2>Crear Super Match</h2><div class="grid">
+<div><label>Atleta 1</label><select id="a1"></select></div><div><label>Atleta 2</label><select id="a2"></select></div>
+<div><label>Mano</label><select id="hand"><option>Derecha</option><option>Izquierda</option></select></div>
+<div><label>Formato</label><input disabled value="Mejor de 5 · Primero en llegar a 3"></div></div>
+<p><button id="addMatch">+ Crear Super Match</button></p><div class="muted">Super Matches ilimitados. Cada enfrentamiento tiene máximo 5 rounds.</div></section>
 </div>
 
+<div id="vAth" class="hidden">
+<section class="card"><div class="head"><h2>Atletas</h2><span class="count" id="athCount">0 atletas</span></div>
+<div class="grid"><div><label>Nombre del atleta</label><input id="athName" placeholder="Ej. Eric Martinez"></div>
+<div><label>Equipo</label><input id="athTeam" placeholder="Ej. Armwarriors PR / No Team"></div></div>
+<p><button id="addAth">+ Añadir atleta</button></p><div id="roster"></div></section>
+</div>
+
+<div id="vSM" class="hidden">
+<section class="card"><div class="head"><h2>Super Matches</h2><span class="count" id="smCount">0</span></div>
+<div class="toolbar"><input id="search" placeholder="🔎 Buscar atleta o equipo"><select id="filter"><option value="all">Todos</option><option value="pending">Pendientes</option><option value="done">Finalizados</option></select></div>
+<div id="smList"></div></section>
+<section id="detail" class="card hidden"><div class="head"><h2>Super Match seleccionado</h2><button class="gray" id="closeDetail">Cerrar</button></div><div id="detailBody"></div></section>
+</div>
+</div>
 <script>
 (function(){
 'use strict';
-const KEY='prac-super-match-manager-final-v1';
-const $=id=>document.getElementById(id);
-let data={event:'PRAC Super Match Series',date:'',athletes:[],matches:[]};
-
+const K='prac-manager-v2', $=id=>document.getElementById(id);
+let d={event:'PRAC Super Match Series',date:'',athletes:[],matches:[]}, selected=null;
 function esc(s){return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
-function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,8);}
-function save(){
- data.event=$('event').value;
- data.date=$('date').value;
- localStorage.setItem(KEY,JSON.stringify(data));
-}
-function athlete(id){return data.athletes.find(a=>a.id===id);}
-function options(){
- const base='<option value="">Selecciona atleta</option>';
- const opts=data.athletes.map(a=>'<option value="'+a.id+'">'+esc(a.name)+' · '+esc(a.team||'No Team')+'</option>').join('');
- const v1=$('a1').value,v2=$('a2').value;
- $('a1').innerHTML=base+opts;$('a2').innerHTML=base+opts;
- if(data.athletes.some(a=>a.id===v1))$('a1').value=v1;
- if(data.athletes.some(a=>a.id===v2))$('a2').value=v2;
-}
-function renderRoster(){
- $('athCount').textContent=data.athletes.length+' atleta'+(data.athletes.length===1?'':'s');
- if(!data.athletes.length){$('roster').innerHTML='<div class="empty">Añade los atletas una sola vez. Luego podrás escogerlos para crear los Super Matches.</div>';return;}
- $('roster').innerHTML=data.athletes.map((a,i)=>'<div class="rosterrow"><div><b>'+(i+1)+'. '+esc(a.name)+'</b><br><small>'+esc(a.team||'No Team')+'</small></div><button type="button" class="danger" onclick="deleteAth(\''+a.id+'\')">Eliminar</button></div>').join('');
-}
-function renderMatches(){
- $('matchCount').textContent=data.matches.length+' Super Match'+(data.matches.length===1?'':'es');
- if(!data.matches.length){$('list').innerHTML='<div class="empty">Todavía no hay Super Matches creados.</div>';return;}
- $('list').innerHTML=data.matches.map((m,i)=>{
-   const x=athlete(m.a1),y=athlete(m.a2);
-   const n1=x?x.name:m.name1,t1=x?(x.team||'No Team'):(m.team1||'No Team');
-   const n2=y?y.name:m.name2,t2=y?(y.team||'No Team'):(m.team2||'No Team');
-   const done=m.s1>=3||m.s2>=3, rounds=m.s1+m.s2;
-   return '<div class="match"><div class="head"><b>Super Match '+(i+1)+'</b><span>'+esc(m.hand)+' · Best of 5</span></div>'+
-   '<div class="vs"><div class="ath '+(m.s1>=3?'winner':'')+'"><b>'+esc(n1)+'</b><small>'+esc(t1)+'</small></div><div class="vsb">VS</div><div class="ath '+(m.s2>=3?'winner':'')+'"><b>'+esc(n2)+'</b><small>'+esc(t2)+'</small></div></div>'+
-   '<div class="score"><button type="button" class="gray" onclick="score('+i+',1,-1)">−</button><button type="button" onclick="score('+i+',1,1)">+ Round</button><b>'+m.s1+' - '+m.s2+'</b><button type="button" onclick="score('+i+',2,1)">+ Round</button><button type="button" class="gray" onclick="score('+i+',2,-1)">−</button></div>'+
-   '<div class="rounds">'+(done?'Finalizado':'Rounds disputados: '+rounds+' de máximo 5')+'</div>'+
-   '<div class="actions">'+(done?'<span class="status">🏆 GANADOR: '+esc(m.s1>=3?n1:n2)+' · '+m.s1+'-'+m.s2+'</span>':'<span class="muted">Primero en llegar a 3</span>')+
-   '<div><button type="button" class="gray" onclick="resetMatch('+i+')">Reiniciar</button> <button type="button" class="danger" onclick="deleteMatch('+i+')">Eliminar</button></div></div></div>';
- }).join('');
-}
-function render(){options();renderRoster();renderMatches();}
-
-$('addAth').addEventListener('click',function(){
- const name=$('athName').value.trim(),team=$('athTeam').value.trim();
- if(!name){alert('Escribe el nombre del atleta.');return;}
- if(data.athletes.some(a=>a.name.toLowerCase()===name.toLowerCase()&&(a.team||'').toLowerCase()===team.toLowerCase())){alert('Ese atleta ya está registrado.');return;}
- data.athletes.push({id:uid(),name,team});
- $('athName').value='';$('athTeam').value='';
- save();render();
-});
-$('addMatch').addEventListener('click',function(){
- const a1=$('a1').value,a2=$('a2').value;
- if(!a1||!a2){alert('Selecciona los dos atletas.');return;}
- if(a1===a2){alert('Selecciona dos atletas diferentes.');return;}
- const x=athlete(a1),y=athlete(a2);
- data.matches.push({id:uid(),a1,a2,name1:x.name,team1:x.team,name2:y.name,team2:y.team,hand:$('hand').value,s1:0,s2:0});
- save();renderMatches();
-});
-$('clearMatches').addEventListener('click',function(){
- if(confirm('¿Borrar toda la cartelera y sus resultados?')){data.matches=[];save();renderMatches();}
-});
-$('event').addEventListener('input',save);$('date').addEventListener('change',save);
-
-window.score=function(i,p,delta){
- const m=data.matches[i];if(!m)return;
- if(delta>0&&(m.s1>=3||m.s2>=3))return;
- if(delta>0&&(m.s1+m.s2>=5))return;
- const key=p===1?'s1':'s2';m[key]=Math.max(0,m[key]+delta);save();renderMatches();
-};
-window.resetMatch=function(i){if(!data.matches[i])return;data.matches[i].s1=0;data.matches[i].s2=0;save();renderMatches();};
-window.deleteMatch=function(i){if(confirm('¿Eliminar este Super Match?')){data.matches.splice(i,1);save();renderMatches();}};
-window.deleteAth=function(id){
- if(data.matches.some(m=>m.a1===id||m.a2===id)){alert('Este atleta está usado en un Super Match. Elimina primero ese Super Match.');return;}
- if(confirm('¿Eliminar este atleta?')){data.athletes=data.athletes.filter(a=>a.id!==id);save();render();}
-};
-
-try{
- const stored=JSON.parse(localStorage.getItem(KEY));
- if(stored&&Array.isArray(stored.athletes)&&Array.isArray(stored.matches))data=stored;
-}catch(e){}
-$('event').value=data.event||'PRAC Super Match Series';$('date').value=data.date||'';
-render();
+function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,7)}
+function save(){d.event=$('event').value;d.date=$('date').value;localStorage.setItem(K,JSON.stringify(d))}
+function A(id){return d.athletes.find(x=>x.id===id)}
+function names(m){let x=A(m.a1),y=A(m.a2);return {n1:x?x.name:m.n1,t1:x?(x.team||'No Team'):(m.t1||'No Team'),n2:y?y.name:m.n2,t2:y?(y.team||'No Team'):(m.t2||'No Team')}}
+function go(v){['Manage','Ath','SM'].forEach(x=>{$('v'+x).classList.toggle('hidden',x!==v);$('n'+x).classList.toggle('on',x===v)});window.scrollTo(0,0);if(v==='SM')renderSM()}
+$('nManage').onclick=()=>go('Manage');$('nAth').onclick=()=>go('Ath');$('nSM').onclick=()=>go('SM');
+function opts(){let o='<option value="">Selecciona atleta</option>'+d.athletes.map(a=>'<option value="'+a.id+'">'+esc(a.name)+' · '+esc(a.team||'No Team')+'</option>').join('');$('a1').innerHTML=o;$('a2').innerHTML=o}
+function renderAth(){ $('athCount').textContent=d.athletes.length+' atleta'+(d.athletes.length===1?'':'s'); $('roster').innerHTML=d.athletes.length?d.athletes.map((a,i)=>'<div class="athrow row"><div><b>'+(i+1)+'. '+esc(a.name)+'</b><div class="muted">'+esc(a.team||'No Team')+'</div></div><button class="danger" onclick="delAth(\''+a.id+'\')">Eliminar</button></div>').join(''):'<div class="empty">Todavía no hay atletas registrados.</div>'}
+function summary(){ $('sumAth').textContent=d.athletes.length;$('sumSM').textContent=d.matches.length;$('sumDone').textContent=d.matches.filter(m=>m.s1>=3||m.s2>=3).length}
+function renderSM(){let q=$('search').value.toLowerCase(),f=$('filter').value;let rows=d.matches.map((m,i)=>({m,i,n:names(m)})).filter(x=>{let done=x.m.s1>=3||x.m.s2>=3,txt=(x.n.n1+' '+x.n.t1+' '+x.n.n2+' '+x.n.t2).toLowerCase();return (!q||txt.includes(q))&&(f==='all'||(f==='done'&&done)||(f==='pending'&&!done))});$('smCount').textContent=d.matches.length+' Super Match'+(d.matches.length===1?'':'es');$('smList').innerHTML=rows.length?rows.map(x=>{let done=x.m.s1>=3||x.m.s2>=3,w=done?(x.m.s1>=3?x.n.n1:x.n.n2):'';return '<div class="smrow"><button onclick="openSM('+x.i+')"><b>#'+(x.i+1)+' · '+esc(x.n.n1)+' vs '+esc(x.n.n2)+'</b><div class="smmeta">'+esc(x.m.hand)+' · Best of 5</div><div class="'+(done?'winnertext':'smmeta')+'">'+(done?'Finalizado · '+x.m.s1+'-'+x.m.s2+' · 🏆 '+esc(w):'Pendiente · '+x.m.s1+'-'+x.m.s2)+'</div></button></div>'}).join(''):'<div class="empty">No hay Super Matches que coincidan.</div>';if(selected!==null)renderDetail()}
+function renderDetail(){let m=d.matches[selected];if(!m){$('detail').classList.add('hidden');selected=null;return}let n=names(m),done=m.s1>=3||m.s2>=3; $('detail').classList.remove('hidden');$('detailBody').innerHTML='<div class="head"><b>Super Match #'+(selected+1)+'</b><span>'+esc(m.hand)+' · Best of 5</span></div><div class="vs"><div class="ath '+(m.s1>=3?'win':'')+'"><b>'+esc(n.n1)+'</b><small>'+esc(n.t1)+'</small></div><div class="vsb">VS</div><div class="ath '+(m.s2>=3?'win':'')+'"><b>'+esc(n.n2)+'</b><small>'+esc(n.t2)+'</small></div></div><div class="score"><button class="gray" onclick="score(1,-1)">−</button><button onclick="score(1,1)">+ Round</button><b>'+m.s1+' - '+m.s2+'</b><button onclick="score(2,1)">+ Round</button><button class="gray" onclick="score(2,-1)">−</button></div><p class="'+(done?'winnertext':'muted')+'">'+(done?'🏆 GANADOR: '+esc(m.s1>=3?n.n1:n.n2)+' · '+m.s1+'-'+m.s2:'Rounds disputados: '+(m.s1+m.s2)+' de máximo 5')+'</p><div class="row"><button class="gray" onclick="resetSM()">Reiniciar marcador</button><button class="danger" onclick="delSM()">Eliminar Super Match</button></div>'}
+$('addAth').onclick=function(){let n=$('athName').value.trim(),t=$('athTeam').value.trim();if(!n)return alert('Escribe el nombre del atleta.');if(d.athletes.some(a=>a.name.toLowerCase()===n.toLowerCase()&&(a.team||'').toLowerCase()===t.toLowerCase()))return alert('Ese atleta ya está registrado.');d.athletes.push({id:uid(),name:n,team:t});$('athName').value='';$('athTeam').value='';save();renderAll()}
+window.delAth=function(id){if(d.matches.some(m=>m.a1===id||m.a2===id))return alert('Este atleta está usado en un Super Match. Elimina primero ese Super Match.');if(confirm('¿Eliminar atleta?')){d.athletes=d.athletes.filter(a=>a.id!==id);save();renderAll()}}
+$('addMatch').onclick=function(){let x=$('a1').value,y=$('a2').value;if(!x||!y)return alert('Selecciona los dos atletas.');if(x===y)return alert('Selecciona atletas diferentes.');let a=A(x),b=A(y);d.matches.push({id:uid(),a1:x,a2:y,n1:a.name,t1:a.team,n2:b.name,t2:b.team,hand:$('hand').value,s1:0,s2:0});save();renderAll();alert('Super Match creado. Puedes verlo en la sección Super Matches.')}
+window.openSM=function(i){selected=i;renderDetail();$('detail').scrollIntoView({behavior:'smooth'})}
+window.score=function(p,delta){let m=d.matches[selected];if(!m)return;if(delta>0&&(m.s1>=3||m.s2>=3))return;if(delta>0&&(m.s1+m.s2>=5))return;let k=p===1?'s1':'s2';m[k]=Math.max(0,m[k]+delta);save();summary();renderSM()}
+window.resetSM=function(){let m=d.matches[selected];if(m){m.s1=0;m.s2=0;save();summary();renderSM()}}
+window.delSM=function(){if(confirm('¿Eliminar este Super Match?')){d.matches.splice(selected,1);selected=null;save();summary();renderSM();$('detail').classList.add('hidden')}}
+$('closeDetail').onclick=()=>{$('detail').classList.add('hidden');selected=null};$('search').oninput=renderSM;$('filter').onchange=renderSM;$('event').oninput=save;$('date').onchange=save;
+function renderAll(){opts();renderAth();summary();renderSM()}
+try{let z=JSON.parse(localStorage.getItem(K));if(z&&Array.isArray(z.athletes)&&Array.isArray(z.matches))d=z}catch(e){}
+$('event').value=d.event||'PRAC Super Match Series';$('date').value=d.date||'';renderAll();
 })();
-</script>
-</body></html>
+</script></body></html>
