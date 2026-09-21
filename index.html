@@ -51,20 +51,30 @@ $('nManage').onclick=()=>go('Manage');$('nAth').onclick=()=>go('Ath');$('nSM').o
 function athlete(id){return athletes.find(a=>String(a.id)===String(id))}
 function need(m){return Number(m.format)===3?2:Number(m.format)===7?4:3}
 function names(m){let a=athlete(m.athlete1_id),b=athlete(m.athlete2_id);return {n1:a?a.name:'Atleta 1',t1:a?(a.team||'No Team'):'',n2:b?b.name:'Atleta 2',t2:b?(b.team||'No Team'):''}}
-function renderAll(){let o='<option value="">Selecciona atleta</option>'+athletes.map(a=>'<option value="'+a.id+'">'+esc(a.name)+' · '+esc(a.team||'No Team')+'</option>').join('');$('a1').innerHTML=o;$('a2').innerHTML=o;$('athCount').textContent=athletes.length+' atletas';$('roster').innerHTML=athletes.length?athletes.map(a=>'<div class="athrow"><b>'+esc(a.name)+'</b><div class="muted">'+esc(a.team||'No Team')+'</div><div class="athactions"><button class="gray" onclick="editAth('+a.id+')">✏️ Editar</button><button class="danger" onclick="deleteAth('+a.id+')">🗑️ Eliminar</button></div></div>').join(''):'<div class="empty">No hay atletas registrados.</div>';$('sumAth').textContent=athletes.length;$('sumSM').textContent=matches.length;$('sumDone').textContent=matches.filter(m=>Number(m.score1)>=need(m)||Number(m.score2)>=need(m)).length;renderSM()}
+function renderAll(){let o='<option value="">Selecciona atleta</option>'+athletes.map(a=>'<option value="'+a.id+'">'+esc(a.name)+' · '+esc(a.team||'No Team')+'</option>').join('');$('a1').innerHTML=o;$('a2').innerHTML=o;$('athCount').textContent=athletes.length+' atletas';$('roster').innerHTML=athletes.length?athletes.map(a=>'<div class="athrow" id="athrow-'+a.id+'"><div id="athview-'+a.id+'"><b>'+esc(a.name)+'</b><div class="muted">'+esc(a.team||'No Team')+'</div><div class="athactions"><button class="gray" onclick="editAth('+a.id+')">✏️ Editar</button><button class="danger" onclick="deleteAth('+a.id+')">🗑️ Eliminar</button></div></div><div id="athedit-'+a.id+'" class="hidden"><label>Nombre del atleta</label><input id="editName-'+a.id+'" value="'+esc(a.name)+'"><label>Equipo</label><input id="editTeam-'+a.id+'" value="'+esc(a.team||'No Team')+'"><div class="athactions"><button onclick="saveAth('+a.id+')">💾 Guardar cambios</button><button class="gray" onclick="cancelAth('+a.id+')">Cancelar</button></div></div></div>').join(''):'<div class="empty">No hay atletas registrados.</div>';$('sumAth').textContent=athletes.length;$('sumSM').textContent=matches.length;$('sumDone').textContent=matches.filter(m=>Number(m.score1)>=need(m)||Number(m.score2)>=need(m)).length;renderSM()}
 async function loadEvent(id){currentEvent=id;let e=await db.from('events').select('*').eq('id',id).single();if(e.error)return stat(e.error.message,false);$('event').value=e.data.name||'';$('date').value=e.data.event_date||'';let a=await db.from('athletes').select('*').order('id');if(a.error)return stat(a.error.message,false);athletes=a.data||[];let m=await db.from('super_matches').select('*').eq('event_id',id).order('id');if(m.error)return stat(m.error.message,false);matches=m.data||[];renderAll();stat('Evento cargado y sincronizado ✓')}
 window.loadEvent=loadEvent;
 $('saveEvent').onclick=async()=>{let name=$('event').value.trim(),event_date=$('date').value||null;if(!name)return alert('Escribe el nombre del evento.');let q=await db.from('events').select('*').ilike('name',name).limit(1);if(q.error)return stat(q.error.message,false);if(q.data.length)return loadEvent(q.data[0].id);let r=await db.from('events').insert({name,event_date}).select().single();if(r.error)return stat(r.error.message,false);loadEvent(r.data.id)};
 $('searchEvents').onclick=async()=>{let q=$('eventSearch').value.trim(),r=await db.from('events').select('*').ilike('name','%'+q+'%').order('event_date',{ascending:false});if(r.error)return stat(r.error.message,false);$('eventResults').innerHTML=(r.data||[]).map(e=>'<div class="athrow row"><div><b>'+esc(e.name)+'</b><div class="muted">'+esc(e.event_date||'Sin fecha')+'</div></div><button onclick="loadEvent('+e.id+')">Abrir</button></div>').join('')||'<div class="empty">No se encontraron eventos.</div>'};
 
-window.editAth=async id=>{
+window.editAth=id=>{
   let a=athlete(id); if(!a)return;
-  let name=prompt('Nombre del atleta:',a.name||''); if(name===null)return;
-  name=name.trim(); if(!name)return alert('El nombre no puede quedar vacío.');
-  let team=prompt('Equipo:',a.team||'No Team'); if(team===null)return;
-  team=team.trim();
+  $('athview-'+id).classList.add('hidden');
+  $('athedit-'+id).classList.remove('hidden');
+  $('editName-'+id).focus();
+};
+window.cancelAth=id=>{
+  $('athedit-'+id).classList.add('hidden');
+  $('athview-'+id).classList.remove('hidden');
+};
+window.saveAth=async id=>{
+  let a=athlete(id); if(!a)return;
+  let name=$('editName-'+id).value.trim();
+  let team=$('editTeam-'+id).value.trim();
+  if(!name)return alert('El nombre no puede quedar vacío.');
+  if(!team)team='No Team';
   let r=await db.from('athletes').update({name,team}).eq('id',id).select().single();
-  if(r.error)return stat(r.error.message,false);
+  if(r.error)return stat('No se pudo actualizar: '+r.error.message,false);
   let i=athletes.findIndex(x=>String(x.id)===String(id)); if(i>=0)athletes[i]=r.data;
   renderAll(); stat('Atleta actualizado ✓');
 };
